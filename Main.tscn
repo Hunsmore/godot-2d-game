@@ -1,17 +1,23 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
 [ext_resource path="res://Mob.tscn" type="PackedScene" id=3]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 39.0598, -0.673682, 0, 0, 0, 0, 630.235, -0.673682, 0, 0, 0, 0, 630.235, 840.084, 0, 0, 0, 0, 39.0598, 840.084, 0, 0, 0, 0, 39.0598, -0.673682 )
+"points": PoolVector2Array( 0, 0, 0, 0, 39.0598, -0.673682, 0, 0, 0, 0, 630.235, -0.673682, 0, 0, 0, 0, 640.255, 838.19, 0, 0, 0, 0, 39.0598, 840.084, 0, 0, 0, 0, 39.0598, -0.673682 )
 }
 
 [node name="Main" type="Node"]
 script = ExtResource( 2 )
 mob_scene = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.160784, 0.368627, 0.341176, 1 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 
@@ -28,15 +34,17 @@ one_shot = true
 position = Vector2( 240, 450 )
 
 [node name="Path2D" type="Path2D" parent="."]
-position = Vector2( -31.1857, 0.711536 )
-scale = Vector2( 0.79841, 1.05619 )
+position = Vector2( -31.1857, 0.576921 )
+scale = Vector2( 0.79841, 0.85637 )
 curve = SubResource( 1 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2( 160, 144 )
-rotation = 0.408147
+position = Vector2( 39.0598, -0.673682 )
+
+[node name="HUD" parent="." instance=ExtResource( 4 )]
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]
